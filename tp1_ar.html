@@ -19,14 +19,14 @@
 <!--
  ar-modes : Android Chrome -> webxr ou scene-viewer ; iPhone -> quick-look
  ar-scale="auto" : on peut agrandir/réduire avec 2 doigts (taille FAUSSE possible)
- Essayez ensuite ar-scale="fixed" pour garder la taille réelle.
+ ar-scale="fixed" : l'objet garde sa taille réelle (version utilisée ici)
 -->
 <model-viewer
     src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
     alt="Un astronaute en 3D"
     ar
     ar-modes="webxr scene-viewer quick-look"
-    ar-scale="auto"
+    ar-scale="fixed"
     ar-placement="floor"
     camera-controls
     touch-action="pan-y"
