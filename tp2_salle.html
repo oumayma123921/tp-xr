@@ -17,51 +17,71 @@
 <a-scene id="scene" vr-mode-ui="enabled: false" renderer="antialias: true">
 
   <!-- ============ BLOC 1 : ENVIRONNEMENT (organisé par fonction) ============ -->
+  <!-- GROUPE : tout le décor est rangé dans une seule entité nommée "Environnement" -->
   <a-entity id="Environnement">
+
+    <!-- CIEL -->
     <a-sky color="#9ec9ee"></a-sky>
+
+    <!-- LUMIÈRE 1 : ambiante (éclaire tout uniformément, pas de direction) -->
     <a-entity light="type: ambient; intensity: 0.7"></a-entity>
+    <!-- LUMIÈRE 2 : directionnelle (vient d'en haut à droite, donne le relief) -->
     <a-entity light="type: directional; intensity: 0.8" position="1 4 2"></a-entity>
 
-    <!-- Sol (6 m x 6 m). Touchez-le pour vous téléporter. -->
+    <!-- NOM EXPLICITE : id="Sol" (6 m x 6 m). class="interactif" : le curseur peut le viser. -->
+    <!-- Touchez-le pour vous téléporter. -->
     <a-plane id="Sol" class="interactif" teleport-sol rotation="-90 0 0" width="6" height="6"
              material="color: #c9c9c9; roughness: 0.9"></a-plane>
 
     <!-- Murs (hauteur 3 m) -->
+    <!-- RÉPÉTÉ x4 : même ligne, seuls position et rotation changent -->
     <a-plane position="0 1.5 -3" width="6" height="3" material="color: #e8eef5"></a-plane>
     <a-plane position="-3 1.5 0" rotation="0 90 0" width="6" height="3" material="color: #e8eef5"></a-plane>
     <a-plane position="3 1.5 0" rotation="0 -90 0" width="6" height="3" material="color: #e8eef5"></a-plane>
     <a-plane position="0 1.5 3" rotation="0 180 0" width="6" height="3" material="color: #e8eef5"></a-plane>
 
-    <!-- Table A : instruments (plateau à 0,75 m du sol, comme une vraie table) -->
+    <!-- NOM EXPLICITE : id="Table_A" (instruments, à gauche : position -0.6) -->
+    <!-- Plateau à 0,75 m du sol, comme une vraie table -->
     <a-entity id="Table_A" position="-0.6 0 -1">
+      <!-- Plateau -->
       <a-box position="0 0.725 0" width="1" height="0.05" depth="0.6" material="color: #8d6e63; roughness: 0.8"></a-box>
+      <!-- RÉPÉTÉ x4 : les 4 pieds, seule la position (x, z) change -->
       <a-box position="-0.45 0.35 -0.25" width="0.05" height="0.7" depth="0.05" color="#5d4037"></a-box>
       <a-box position="0.45 0.35 -0.25" width="0.05" height="0.7" depth="0.05" color="#5d4037"></a-box>
       <a-box position="-0.45 0.35 0.25" width="0.05" height="0.7" depth="0.05" color="#5d4037"></a-box>
       <a-box position="0.45 0.35 0.25" width="0.05" height="0.7" depth="0.05" color="#5d4037"></a-box>
     </a-entity>
 
-    <!-- Table B : plateau avec 3 zones de dépôt -->
+    <!-- TABLE RÉPÉTÉE : même structure que Table_A (plateau + 4 pieds), mais à droite -->
+    <!-- et avec d'autres couleurs. NOM EXPLICITE : id="Table_B" (3 zones de dépôt) -->
     <a-entity id="Table_B" position="0.6 0 -1">
+      <!-- Plateau -->
       <a-box position="0 0.725 0" width="1" height="0.05" depth="0.6" material="color: #eceff1; roughness: 0.5"></a-box>
+      <!-- RÉPÉTÉ x4 : les 4 pieds -->
       <a-box position="-0.45 0.35 -0.25" width="0.05" height="0.7" depth="0.05" color="#90a4ae"></a-box>
       <a-box position="0.45 0.35 -0.25" width="0.05" height="0.7" depth="0.05" color="#90a4ae"></a-box>
       <a-box position="-0.45 0.35 0.25" width="0.05" height="0.7" depth="0.05" color="#90a4ae"></a-box>
       <a-box position="0.45 0.35 0.25" width="0.05" height="0.7" depth="0.05" color="#90a4ae"></a-box>
     </a-entity>
 
-    <!-- Panneau de mission ancré dans le monde (pas collé à la tête) -->
+    <!-- PANNEAU de mission ancré dans le monde (sur le mur du fond, pas collé à la tête) -->
+    <!-- Fond sombre du panneau -->
     <a-plane position="0 2.0 -2.95" width="2.4" height="0.9" material="color: #1b2a41; shader: flat"></a-plane>
+    <!-- NOM EXPLICITE : id="Panneau" -->
     <a-text id="Panneau" position="0 2.0 -2.93" width="2.2" align="center" color="#ffffff"
             value="Salle de formation\nPlacez chaque instrument\ndans sa zone."></a-text>
+    <!-- Texte d'avertissement jaune -->
     <a-text position="0 2.55 -2.93" width="2.2" align="center" color="#ffd54f"
             value="Prototype pédagogique - pas un dispositif médical"></a-text>
+
   </a-entity>
 
   <!-- ============ BLOC 4 : XR ORIGIN (rig) + caméra + curseur ============ -->
   <!-- On déplace le RIG, jamais la caméra seule. wasd : test sur ordinateur. -->
   <a-entity id="rig" position="0 0 0.8" wasd-controls="acceleration: 15">
+    <!-- Caméra = la tête (1,6 m de hauteur), la vue suit le téléphone -->
     <a-entity id="tete" camera position="0 1.6 0" look-controls>
+      <!-- Curseur = le point blanc au centre de la vue ; il ne vise que les objets class="interactif" -->
       <a-entity id="curseur" cursor="fuse: false" raycaster="objects: .interactif; far: 8"
                 position="0 0 -1"
                 geometry="primitive: ring; radiusInner: 0.012; radiusOuter: 0.02"
